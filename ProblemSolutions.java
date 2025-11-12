@@ -1,7 +1,7 @@
 
 /******************************************************************
  *
- *   YOUR NAME / SECTION NUMBER
+ *   Joanelis Rivera Matos / 002
  *
  *   This java file contains the problem solutions for the methods lastBoulder,
  *   showDuplicates, and pair methods. You should utilize the Java Collection
@@ -64,11 +64,36 @@ public class ProblemSolutions {
      */
 
   public static int lastBoulder(int[] boulders) {
+      
+      PriorityQueue<Integer> boulderGame = new PriorityQueue<>(Collections.reverseOrder());
 
-      //
-      // ADD YOUR CODE HERE - DO NOT FORGET TO ADD YOUR NAME / SECTION # ABOVE
-      //
-      return -1;
+      for(int i = boulders.length - 1; i >= 0; i--){
+          boulderGame.add(boulders[i]);
+      }
+
+      while(boulderGame.size() > 2){
+          int check1 = boulderGame.poll();
+          int check2 = boulderGame.poll();
+
+          if(check1 != check2){
+              boulderGame.add(check1 - check2);
+          }
+      }
+
+      if(boulderGame.size() == 2){
+          int finalCheck1 = boulderGame.poll();
+          int finalCheck2 = boulderGame.peek();
+
+          if(finalCheck1 != finalCheck2){
+              return finalCheck1 - finalCheck2;
+          } else{
+              return 0;
+          }
+      } else if(boulderGame.isEmpty()){
+          return 0;
+      }
+
+      return boulderGame.poll();
   }
 
 
@@ -91,10 +116,20 @@ public class ProblemSolutions {
 
     public static ArrayList<String> showDuplicates(ArrayList<String> input) {
 
-        //
-        //  YOUR CODE GOES HERE
-        //
-        return new ArrayList<>();  // Make sure result is sorted in ascending order
+        TreeSet<String> duplicateHolder = new TreeSet<>();
+        ArrayList<String> result = new ArrayList<>();
+
+        for(int i = 0; i < input.size() - 1; i++){
+          if(!duplicateHolder.contains(input.get(i))){
+              duplicateHolder.add(input.get(i));
+          } else {
+              if(!result.contains(input.get(i))){
+                  result.add(input.get(i));
+              }
+          }
+        }
+        
+        return result;
 
     }
 
@@ -131,9 +166,29 @@ public class ProblemSolutions {
 
     public static ArrayList<String> pair(int[] input, int k) {
 
-        //
-        //  YOUR CODE GOES HERE
-        //
-        return new ArrayList<>();  // Make sure returned lists is sorted as indicated above
+        TreeSet<Integer> duplicateRemover = new TreeSet<>();
+
+        for(int i = 0; i < input.length; i++){
+            duplicateRemover.add(input[i]);
+        }
+
+        TreeSet<String> inOrder = new TreeSet<>();
+
+        while(!duplicateRemover.isEmpty()){
+            int um = duplicateRemover.pollFirst();
+            for(int j = 0; j < input.length - 1; j++){
+                if(input[j] + um == k){
+                    if(input[j] > um){
+                        inOrder.add("(" + um + ", " + input[j] + ")");
+                    } else{
+                        inOrder.add("(" + input[j] + ", " + um + ")");
+                    }
+                }
+            }
+        }
+
+        ArrayList<String> result = new ArrayList<>(inOrder);
+
+        return result;
     }
 }
