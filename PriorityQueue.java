@@ -1,7 +1,7 @@
 
 /******************************************************************
  *
- *   YOUR NAME / SECTION NUMBER
+ *   Joanelis Rivera Matos / 002
  *
  *   Note, additional comments provided throughout this source code
  *   is for educational purposes
@@ -151,8 +151,13 @@ class PriorityQueue<E, P> {
 
     public Node add(E e, P priority) {
 
-        // YOUR CODE GOES HERE
-        return null;
+        Node newElement = new Node(e, priority, tree.size());
+
+        tree.add(newElement);
+
+        pullUp(newElement.idx);
+
+        return newElement;
     }
 
 
@@ -168,7 +173,12 @@ class PriorityQueue<E, P> {
 
     public boolean contains(E e) {
 
-        // ADD YOUR CODE HERE
+        for(int i = 0; i < tree.size(); i++) {
+            if (tree.get(i).value == e) {
+                return true;
+            }
+        }
+
         return false;
     }
 
